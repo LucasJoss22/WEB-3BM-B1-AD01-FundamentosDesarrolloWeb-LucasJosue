@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - DriveFix</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Encabezado -->
+    <header>
+        <h1>Panel de Administración - DriveFix</h1>
+        <nav>
+            <span style="color: #f1c40f; font-weight: bold; margin-right: 15px;">Admin: DriveFix</span>
+            <a href="index.html">Inicio</a>
+            <button onclick="cerrarSesion()" class="btn-cerrar">Cerrar Sesión</button>
+        </nav>
+    </header>
+
+    <div class="contenedor">
+        <h2>Gestión General de Clientes y Mantenimientos</h2>
+        <p>Control total de solicitudes, actualización de estados de atención y administración de clientes.</p>
+        <hr>
+
+        <!-- Seccion 1: Lista de clientes registrados -->
+        <h3>1. Clientes del Sistema</h3>
+        <table class="tabla-datos">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Vehículo</th>
+                    <th>Placa</th>
+                    <th>Estado Cuenta</th>
+                </tr>
+            </thead>
+            <tbody id="tablaClientes">
+                <!-- Se llena desde admin.js -->
+            </tbody>
+        </table>
+
+        <hr>
+
+        <!-- Seccion 2: Formulario CRUD de Mantenimientos (Crear y Modificar) -->
+        <h3 id="tituloFormMantenimiento">2. Registrar / Modificar Solicitud de Mantenimiento</h3>
+        <p class="text-muted" style="font-size: 13px;">El administrador puede registrar solicitudes propias o para cualquier cliente, y modificar estados y costos.</p>
+
+        <form id="formMantenimiento" class="formulario-crud">
+            <input type="hidden" id="editandoId" value="">
+
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <label for="selectCliente">Cliente Asignado (*):</label>
+                    <select id="selectCliente" required>
+                        <option value="">Selecciona un cliente...</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label for="adminPlaca">Placa (*):</label>
+                    <input type="text" id="adminPlaca" placeholder="ABC-1234" required>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label for="adminVehiculo">Marca y Modelo (*):</label>
+                    <input type="text" id="adminVehiculo" placeholder="Ej: Toyota Corolla" required>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-4 mb-2">
+                    <label for="selectServicio">Tipo de Servicio (*):</label>
+                    <select id="selectServicio" required>
+                        <option value="Mecánica General">Mecánica General</option>
+                        <option value="Cambio de Aceite y Filtros">Cambio de Aceite y Filtros</option>
+                        <option value="Revisión de Frenos">Revisión de Frenos</option>
+                        <option value="Alineación y Balanceo">Alineación y Balanceo</option>
+                        <option value="Diagnóstico Electrónico">Diagnóstico Electrónico</option>
+                        <option value="Sistema Eléctrico y Batería">Sistema Eléctrico y Batería</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label for="fechaMantenimiento">Fecha (*):</label>
+                    <input type="date" id="fechaMantenimiento" required>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label for="horaMantenimiento">Hora (*):</label>
+                    <input type="time" id="horaMantenimiento" value="09:00" required>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-4 mb-2">
+                    <label for="estadoMantenimiento">Estado de Atención (Oficial de Rúbrica) (*):</label>
+                    <select id="estadoMantenimiento" required>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En revisión">En revisión</option>
+                        <option value="En proceso">En proceso</option>
+                        <option value="Finalizado">Finalizado</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label for="costoMantenimiento">Costo ($) (*):</label>
+                    <input type="number" id="costoMantenimiento" step="0.01" min="0" placeholder="0.00" required>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label for="tipoAtencionAdmin">Modalidad:</label>
+                    <select id="tipoAtencionAdmin">
+                        <option value="Normal">Normal</option>
+                        <option value="Express">Express</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <label for="observacionesMantenimiento">Observaciones / Informe Técnico:</label>
+                <textarea id="observacionesMantenimiento" rows="2" placeholder="Diagnóstico técnico, repuestos usados o estado del trabajo..."></textarea>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" id="btnGuardarMantenimiento" class="btn btn-primary">Guardar Solicitud</button>
+                <button type="button" id="btnCancelarEdicion" class="btn btn-secondary" style="display: none;">Cancelar Edición</button>
+            </div>
+        </form>
+
+        <hr>
+
+        <!-- Seccion 3: Tabla CRUD de Mantenimientos General -->
+        <h3>3. Listado General de Mantenimientos (Todas las solicitudes)</h3>
+        <p class="text-muted" style="font-size: 13px;">El administrador puede editar cualquier registro, cambiar el estado de atención o eliminarlo previa confirmación.</p>
+
+        <table class="tabla-datos">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Vehículo / Placa</th>
+                    <th>Servicio</th>
+                    <th>Fecha / Hora</th>
+                    <th>Costo</th>
+                    <th>Estado</th>
+                    <th>Observaciones</th>
+                    <th>Acciones (CRUD)</th>
+                </tr>
+            </thead>
+            <tbody id="tablaMantenimientos">
+                <!-- Se llena desde admin.js -->
+            </tbody>
+        </table>
+
+        <hr>
+
+        <!-- Seccion 4: Mensajes de contacto recibidos -->
+        <h3>4. Bandeja de Consultas de Contacto</h3>
+        <table class="tabla-datos">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Motivo</th>
+                    <th>Mensaje</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tablaMensajesContacto">
+                <!-- Se llena desde admin.js -->
+            </tbody>
+        </table>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Taller DriveFix. Instituto Superior Tecnológico Cordillera.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="datos.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

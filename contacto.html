@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacto y Ubicación - DriveFix</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Taller Mecanico DriveFix</h1>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="contacto.html">Contacto</a>
+            <a href="login.html" class="link-login">Iniciar Sesión</a>
+        </nav>
+    </header>
+
+    <div class="contenedor">
+        <h2>Contáctanos y Visítanos</h2>
+        <p>Estamos listos para atenderte. Puedes escribirnos por WhatsApp, dejarnos un mensaje o ubicarnos en el mapa.</p>
+        <hr>
+
+        <!-- Bloque a dos columnas: Datos + WhatsApp y Google Maps -->
+        <div class="fila-contacto-index">
+            <div class="col-contacto-datos">
+                <h3>Información del Taller</h3>
+                <p><strong>Dirección:</strong> Av. Principal 123 y Calle Secundaria</p>
+                <p><strong>Teléfono:</strong> 0987265149</p>
+                <p><strong>Correo:</strong> contacto@drivefix.com</p>
+                <p><strong>Horario:</strong> Lunes a Sábado de 8:00 AM a 6:00 PM</p>
+
+                <!-- Boton WhatsApp directo -->
+                <div style="margin-top: 15px;">
+                    <a href="https://api.whatsapp.com/send?phone=593987265149&text=Hola%20DriveFix,%20deseo%20consultar%20sobre%20un%20servicio%20mecanico" target="_blank" class="btn-whatsapp-index">
+                        💬 Escríbenos al WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mapa embebido de Google Maps -->
+            <div class="col-contacto-mapa">
+                <h3>Nuestra Ubicación</h3>
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.812832457833!2d-78.45958148879983!3d-0.09503063548521762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d58f6bedcc6d1b%3A0x3ecf5f8e6fa9f60b!2sConjunto%20Port%20Bou!5e0!3m2!1sen!2sec!4v1794280645061!5m2!1sen!2sec" 
+                    width="100%" 
+                    height="240" 
+                    style="border:0; border-radius: 8px;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Formulario de contacto -->
+        <h3>Envíanos un mensaje</h3>
+        <form id="formContacto" class="formulario-contacto">
+            <label for="nombreContacto">Tu Nombre:</label>
+            <input type="text" id="nombreContacto" placeholder="Nombre completo" required>
+
+            <label for="correoContacto">Correo Electrónico:</label>
+            <input type="email" id="correoContacto" placeholder="correo@ejemplo.com" required>
+
+            <label for="motivo">Motivo de consulta:</label>
+            <select id="motivo" required>
+                <option value="">Selecciona una opción...</option>
+                <option value="mantenimiento">Mantenimiento preventivo</option>
+                <option value="frenos">Revisión de frenos</option>
+                <option value="diagnostico">Diagnóstico / Escaneo</option>
+                <option value="otro">Otra consulta</option>
+            </select>
+
+            <label for="mensajeTexto">Mensaje:</label>
+            <textarea id="mensajeTexto" rows="4" placeholder="Escribe tu consulta aquí..." required></textarea>
+
+            <button type="submit" id="btnEnviarMensaje">Enviar Mensaje</button>
+        </form>
+
+        <p id="respuestaContacto" class="mensaje-exito"></p>
+    </div>
+
+    <!-- Boton flotante de WhatsApp (esquina) -->
+    <a href="https://api.whatsapp.com/send?phone=593987265149&text=Hola%20DriveFix,%20deseo%20informacion%20de%20sus%20servicios" class="whatsapp-flotante" target="_blank" title="Chatear por WhatsApp">
+        💬
+    </a>
+
+    <footer>
+        <p>&copy; 2026 Taller DriveFix. Taller Mecanico.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="datos.js"></script>
+    <script src="contacto.js"></script>
+</body>
+</html>
