@@ -20,8 +20,7 @@ DriveFix es una aplicación web frontend para un taller mecánico automotriz que
   - Usuario: `admin`
   - Contraseña: `admin123`
 - **Cliente:**
-  - Usuario: `cliente1` (o crear una cuenta nueva desde el registro)
-  - Contraseña: `123`
+  - Usuario: Crear una cuenta nueva desde el registro
 
 ##  Autor
 - **Josué Lucas** - Instituto Superior Tecnológico Cordillera
